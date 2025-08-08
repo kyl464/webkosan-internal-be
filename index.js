@@ -7,7 +7,7 @@ const app = express();
 
 // Konfigurasi CORS yang benar
 const corsOptions = {
-  origin: "https://webkosan-internal-fe.vercel.app/", // Ganti dengan URL Vercel Anda untuk production
+  origin: "https://webkosan-internal-fe.vercel.app", // Ganti dengan URL Vercel Anda untuk production
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
 };
