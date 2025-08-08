@@ -5,17 +5,26 @@ const { createClient } = require("@supabase/supabase-js");
 require("dotenv").config();
 
 const app = express();
-app.use(cors());
+
+// ======================= PERBAIKAN DI SINI =======================
+// 1. Konfigurasi CORS yang lebih spesifik dan aman
 const corsOptions = {
-  // Untuk production, ganti '*' dengan URL Vercel frontend Anda, contoh: 'https://webkosan-internal-fe.vercel.app'
-  origin: "https://webkosan-internal-fe.vercel.app/",
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Secara eksplisit izinkan metode-metode ini
-  allowedHeaders: ["Content-Type", "Authorization"], // Header yang diizinkan
+  // 2. Hapus garis miring (/) di akhir URL origin
+  origin: "https://webkosan-internal-fe.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
+
+// Hapus `app.use(cors());` yang lama, cukup panggil satu kali dengan options
 app.use(cors(corsOptions));
-// ===============================================================
 
 app.use(express.json());
+
+// 3. Tambahkan Root Route untuk Health Check (SANGAT PENTING untuk Railway)
+app.get("/", (req, res) => {
+  res.status(200).json({ status: "UP", message: "Welcome to Kosan API!" });
+});
+// ===============================================================
 
 // MongoDB connection
 mongoose
@@ -42,5 +51,10 @@ app.use("/api/auth", authRoutes);
 app.use("/api/review", reviewRoutes);
 app.use("/api/favorit", favoritRoutes);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on ${PORT}`));
+// ======================= PERBAIKAN DI SINI =======================
+// 4. Menggunakan fallback port yang berbeda dari Next.js (5000)
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () =>
+  console.log(`✅ Server running on http://localhost:${PORT}`)
+);
+// ===============================================================
