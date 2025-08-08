@@ -5,6 +5,20 @@ const supabase = createClient(
   process.env.SUPABASE_KEY
 );
 
+// ===================== KODE UNTUK TES DIAGNOSTIK =====================
+// Ganti fungsi registerUser Anda dengan yang ini UNTUK SEMENTARA
+exports.registerUser = async (req, res) => {
+  // Jika Anda melihat log ini di terminal Railway, berarti rute & controller BEKERJA.
+  console.log("✅ FUNGSI registerUser BERHASIL DIPANGGIL!");
+  console.log("Body request yang diterima:", req.body);
+
+  // Langsung kirim respons sukses tanpa menyentuh database
+  return res.status(200).json({
+    message: "Tes endpoint register berhasil!",
+    dataDiterima: req.body,
+  });
+};
+
 exports.registerUser = async (req, res) => {
   try {
     const { username, email, password, confirmPassword } = req.body;
