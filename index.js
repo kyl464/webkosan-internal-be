@@ -6,6 +6,15 @@ require("dotenv").config();
 
 const app = express();
 app.use(cors());
+const corsOptions = {
+  // Untuk production, ganti '*' dengan URL Vercel frontend Anda, contoh: 'https://webkosan-internal-fe.vercel.app'
+  origin: "https://webkosan-internal-fe.vercel.app/",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Secara eksplisit izinkan metode-metode ini
+  allowedHeaders: ["Content-Type", "Authorization"], // Header yang diizinkan
+};
+app.use(cors(corsOptions));
+// ===============================================================
+
 app.use(express.json());
 
 // MongoDB connection
